@@ -1,15 +1,9 @@
 import os
 import json
 import time
-import boto
-import boto.s3
+import subprocess
 
-from boto.exception import BotoServerError
-from cStringIO import StringIO
 from ConfigParser import ConfigParser
-from fabric.api import local, quiet, env, run, put, cd
-from urllib2 import unquote
-from zipfile import ZipFile, ZIP_DEFLATED
 
 # Constants (User configurable), imported from config.py
 
@@ -36,13 +30,15 @@ AWS_CLI_STANDARD_OPTIONS = (
 
 SSH_USER = 'ec2-user'
 WAIT_TIME = 60  # seconds to allow for eventual consistency to kick in.
+APP_DIR = os.path.join(os.environ['HOME'],APP_NAME)
 
 vardict=dict(globals())
 vardict.pop('trueglobals')
 for eachvar in trueglobals.keys():
     vardict.pop(eachvar)
 
-with open(os.path.join(os.environ['HOME'],APP_NAME+'.tfvars'),'w') as tfVarsFile:
+varfilepath=os.path.join(APP_DIR,APP_NAME+'.tfvars')
+with open(varfilepath,'w') as tfVarsFile:
     json.dump(vardict,tfVarsFile,sort_keys = True, indent = 4)
 
 # Templates and embedded scripts
@@ -165,7 +161,7 @@ def generate_task_definition():
 	    "value": str(SECONDS_TO_START)
 	}
     ]
-    with open(os.path.join(os.environ['HOME'],APP_NAME+'_task.json'),'w') as taskFile:
+    with open(os.path.join(APP_DIR,APP_NAME+'_task.json'),'w') as taskFile:
     	json.dump(task_definition,taskFile, indent = 4)
 
 '''def update_ecs_task_definition():
@@ -263,4 +259,7 @@ def setup():
 #ADD SPOT FLEET REQUEST CREATION STUFF FROM THE RUN.PY FILE
 
 #CREATE A TERRAFORM PLAN
+cmd='terraform plan -out=path\plan.tf -state=path\state.tf -var-file=varfilepath'
+subprocess.Popen(cmd.split())
+
 
