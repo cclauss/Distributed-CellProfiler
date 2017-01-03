@@ -10,12 +10,18 @@ AWS_REGION = 'us-east-1'
 AWS_PROFILE = 'default'                 # The same profile used by your AWS CLI installation
 SSH_KEY_NAME = 'your-key-file.pem'      # Expected to be in ~/.ssh
 AWS_BUCKET = 'your-bucket-name'
+IAM_FLEET_ROLE = 'arn:aws:iam::XXXXXXXXXXXXX:role/aws-ec2-spot-fleet-role'
+IAM_INSTANCE_PROFILE = 'arn:aws:iam::XXXXXXXXXXXX:instance-profile/ecsInstanceRole'
 
 # EC2 AND ECS INFORMATION:
 ECS_CLUSTER = 'default'
+INSTANCE_TYPES = 'm4.xlarge'
 CLUSTER_MACHINES = 3
 TASKS_PER_MACHINE = 1
+SPOT_PRICE = '0.10'
 EBS_VOL_SIZE = 30                       # In GB.  Minimum allowed is 22.
+SUBNET_ID = 'subnet-XXXXXXXX'
+GROUPS = 'sg-ZZZZZZZZZ'
 
 # DOCKER INSTANCE RUNNING ENVIRONMENT:
 DOCKER_CORES = 1                        # Number of CellProfiler processes to run inside a docker container
