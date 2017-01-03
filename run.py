@@ -27,7 +27,7 @@ def loadConfig(configFile):
 		data = json.load(conf)
 	return data
 
-def killdeadAlarms(fleetId,monitorapp):
+"""def killdeadAlarms(fleetId,monitorapp):
 	checkdates=[datetime.datetime.now().strftime('%Y-%m-%d'),(datetime.datetime.now()-datetime.timedelta(days=1)).strftime('%Y-%m-%d')]
 	todel=[]
 	for eachdate in checkdates:
@@ -43,6 +43,7 @@ def killdeadAlarms(fleetId,monitorapp):
 		time.sleep(3) #Avoid Rate exceeded error
 		print 'Deleted', monitorapp+'_'+eachmachine, 'if it existed'
 	print 'Old alarms deleted'
+"""
 
 def seeIfLogExportIsDone(logExportId):
 	while True:
@@ -187,6 +188,8 @@ def submitJob():
 # SERVICE 2: START CLUSTER 
 #################################
 
+'''
+ALL OF THIS MOVES TO THE FAB FILE
 def startCluster():
     if len(sys.argv) < 3:
         print 'Use: run.py startCluster configFile'
@@ -246,6 +249,9 @@ def startCluster():
 	      ' --desired-count ' + str(CLUSTER_MACHINES*TASKS_PER_MACHINE)
     update = getAWSJsonOutput(cmd)
     print 'Service updated. Your job should start in a few minutes.'
+'''
+#TERRAFORM APPLY
+
 
 #################################
 # SERVICE 3: MONITOR JOB 
@@ -272,11 +278,11 @@ def monitor():
 	#These records are only kept for 48 hours, which is why we don't just do it at the end
         curtime=datetime.datetime.now().strftime('%H%M')
         if curtime=='1200':
-            killdeadAlarms(fleetId,monitorapp)
+            #killdeadAlarms(fleetId,monitorapp)
         time.sleep(MONITOR_TIME)
 	
 	# Step 2: When no messages are pending, stop service
-    cmd = 'aws ecs update-service --cluster ' + monitorcluster + \
+    """cmd = 'aws ecs update-service --cluster ' + monitorcluster + \
 	      ' --service ' + monitorapp + 'Service' + \
 	      ' --desired-count 0'
     update = getAWSJsonOutput(cmd)
@@ -308,7 +314,7 @@ def monitor():
     print 'De-registering task'
     deregistertask(ECS_TASK_NAME)
     print "Removing cluster if it's not the default and not otherwise in use"
-    removeClusterIfUnused(monitorcluster)
+    removeClusterIfUnused(monitorcluster)"""
 	
 	#Step 6: Export the logs to S3
     cmd = 'aws logs create-export-task --task-name "'+loggroupId+'" --log-group-name '+loggroupId+ \
