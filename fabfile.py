@@ -35,6 +35,11 @@ AWS_CLI_STANDARD_OPTIONS = (
 SSH_USER = 'ec2-user'
 WAIT_TIME = 60  # seconds to allow for eventual consistency to kick in.
 
+vardict=dict(globals(),**locals())
+
+with open(os.path.join(os.environ['HOME'],APP_NAME+'.tfvars'),'w') as tfVarsFile:
+    json.dump(vardict,tfVarsFile)
+
 # Templates and embedded scripts
 
 TASK_DEFINITION = {
