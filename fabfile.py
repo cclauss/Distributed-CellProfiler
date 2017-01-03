@@ -1,7 +1,19 @@
 import os
+import json
+import time
+import boto
+import boto.s3
 
+from boto.exception import BotoServerError
+from cStringIO import StringIO
+from ConfigParser import ConfigParser
+from fabric.api import local, quiet, env, run, put, cd
+from urllib2 import unquote
+from zipfile import ZipFile, ZIP_DEFLATED
 
 # Constants (User configurable), imported from config.py
+
+trueglobals=dict(globals())
 
 from config import *
 
@@ -26,31 +38,11 @@ SSH_USER = 'ec2-user'
 WAIT_TIME = 60  # seconds to allow for eventual consistency to kick in.
 
 vardict=dict(globals())
-vardict.pop('os')
-vardict.pop('__package__')
-vardict.pop('__name__')
-vardict.pop('__file__')
-vardict.pop('__doc__')
-vardict.pop('__builtins__')
-print vardict.keys()
-
-import json
-import time
-import boto
-import boto.s3
-
-from boto.exception import BotoServerError
-from cStringIO import StringIO
-from ConfigParser import ConfigParser
-from fabric.api import local, quiet, env, run, put, cd
-from urllib2 import unquote
-from zipfile import ZipFile, ZIP_DEFLATED
-
-
+for eachvar in trueglobals.keys():
+    vardict.pop(eachvar)
 
 with open(os.path.join(os.environ['HOME'],APP_NAME+'.tfvars'),'w') as tfVarsFile:
     json.dump(vardict,tfVarsFile,sort_keys = True, indent = 4)
-
 
 # Templates and embedded scripts
 
