@@ -155,14 +155,16 @@ def generate_task_definition():
 	    "value": str(SECONDS_TO_START)
 	}
     ]
-    return task_definition
+    #SAVE TASK DEFINITION AS A FILE
+    #return task_definition
+
 
 
 def show_task_definition():
     print json.dumps(generate_task_definition(), indent=4)
 
 
-def update_ecs_task_definition():
+'''def update_ecs_task_definition():
     task_definition_string = json.dumps(generate_task_definition())
 
     response = local(
@@ -171,17 +173,17 @@ def update_ecs_task_definition():
         '    --cli-input-json \'' + task_definition_string + '\'' +
         AWS_CLI_STANDARD_OPTIONS,
         capture=True
-    )
+    )'''
 
-def get_or_create_cluster():
+'''def get_or_create_cluster():
     info = local('aws ecs list-clusters', capture=True)
     data = json.loads(info)
     cluster = [clu for clu in data['clusterArns'] if clu.endswith(ECS_CLUSTER)]
     if len(cluster) == 0:
 	local('aws ecs create-cluster --cluster-name '+ECS_CLUSTER,capture=True)
-	time.sleep(WAIT_TIME)
+	time.sleep(WAIT_TIME)'''
 
-def create_or_update_ecs_service():
+'''def create_or_update_ecs_service():
     # Create the service with no workers (0 desired count)
     info = local('aws ecs list-services', capture=True)
     data = json.loads(info)
@@ -199,13 +201,13 @@ def create_or_update_ecs_service():
 	      ' --task-definition ' + ECS_TASK_NAME + 
 	      ' --desired-count 0 ',
 	      capture=True
-    )
+    )'''
 
 
 # Amazon SQS
 
 
-def get_queue_url():
+'''def get_queue_url():
     result = local(
         'aws sqs list-queues' +
         AWS_CLI_STANDARD_OPTIONS,
@@ -219,10 +221,10 @@ def get_queue_url():
                 if u.split('/')[-1] == SQS_QUEUE_NAME:
                     return u
 
-    return None
+    return None'''
 
 
-def get_or_create_queue():
+'''def get_or_create_queue():
     	u = get_queue_url()
     	if u is None:
 	    local(
@@ -232,17 +234,13 @@ def get_or_create_queue():
 		AWS_CLI_STANDARD_OPTIONS,
 		capture=True
 	    )
-	time.sleep(WAIT_TIME)
+	time.sleep(WAIT_TIME)'''
 
 
 # High level functions. Call these as "fab <function>"
 
 
-def update_bucket():
-    get_or_create_bucket()
-
-
-def update_ecs():
+'''def update_ecs():
     get_or_create_cluster()
     update_ecs_task_definition()
     create_or_update_ecs_service()
@@ -256,5 +254,9 @@ def setup():
     update_dependencies()
     update_queue()
     update_ecs()
-    show_bucket_name()
+    show_bucket_name()'''
+
+#ADD SPOT FLEET REQUEST CREATION STUFF FROM THE RUN.PY FILE
+
+#CREATE A TERRAFORM PLAN
 
