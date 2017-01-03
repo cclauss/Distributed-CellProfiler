@@ -165,14 +165,8 @@ def generate_task_definition():
 	    "value": str(SECONDS_TO_START)
 	}
     ]
-    #SAVE TASK DEFINITION AS A FILE
-    #return task_definition
-
-
-
-def show_task_definition():
-    print json.dumps(generate_task_definition(), indent=4)
-
+    with open(os.path.join(os.environ['HOME'],APP_NAME+'_task.json'),'w') as taskFile:
+    	json.dump(task_definition,taskFile, indent = 4)
 
 '''def update_ecs_task_definition():
     task_definition_string = json.dumps(generate_task_definition())
