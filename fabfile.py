@@ -38,6 +38,7 @@ SSH_USER = 'ec2-user'
 WAIT_TIME = 60  # seconds to allow for eventual consistency to kick in.
 
 vardict=dict(globals())
+vardict.pop('trueglobals')
 for eachvar in trueglobals.keys():
     vardict.pop(eachvar)
 
