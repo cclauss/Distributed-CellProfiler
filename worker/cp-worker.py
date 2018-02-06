@@ -144,10 +144,10 @@ def runCellProfiler(message):
     # Build and run CellProfiler command
     cpDone = localOut + '/cp.is.done'
     if message['pipeline'][-3:]!='.h5':
-        cmd = 'cellprofiler -c -r -b -p %(DATA)s/%(PL)s -i %(DATA)s/%(IN)s -o %(OUT)s -d ' + cpDone
+        cmd = 'cellprofiler -c -r -p %(DATA)s/%(PL)s -i %(DATA)s/%(IN)s -o %(OUT)s -d ' + cpDone
         cmd += ' --data-file=%(DATA)s/%(FL)s -g %(Metadata)s'
     else:
-        cmd = 'cellprofiler -c -r -b -p %(DATA)s/%(PL)s -o %(OUT)s -d ' + cpDone + ' --data-file=%(DATA)s/%(FL)s -g %(Metadata)s'
+        cmd = 'cellprofiler -c -r -p %(DATA)s/%(PL)s -o %(OUT)s -d ' + cpDone + ' --data-file=%(DATA)s/%(FL)s -g %(Metadata)s'
     cmd = cmd % replaceValues
     print 'Running', cmd
     logger.info(cmd)

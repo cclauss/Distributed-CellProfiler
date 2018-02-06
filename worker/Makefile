@@ -1,6 +1,6 @@
 user = bethcimini
 project = distributed-cellprofiler
-tag = latest
+tag = 110_300
 
 .DEFAULT_GOAL: build
 build:
